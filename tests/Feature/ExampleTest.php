@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use App\BatchTrigger;
-use App\Events\JobOneEvent;
+use App\Events\BatchedJobEvent;
 use App\Events\JobThreeEvent;
 use App\Events\JobTwoEvent;
-use App\Jobs\JobOne;
+use App\Jobs\BatchedJob;
 use App\Jobs\JobThree;
 use App\Jobs\JobTwo;
-use App\Jobs\UnrelatedJob;
+use App\Jobs\NonBatchedJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
@@ -26,14 +26,14 @@ class ExampleTest extends TestCase
      */
     public function test_example()
     {
-        Bus::fake(UnrelatedJob::class);
+        Bus::fake(NonBatchedJob::class);
         Event::fake();
 
         Bus::batch([
-            new JobOne(),
+            new BatchedJob(),
         ])
             ->dispatch();
 
-        Event::assertDispatched(JobOneEvent::class);
+        Event::assertDispatched(BatchedJobEvent::class);
     }
 }
