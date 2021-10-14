@@ -31,13 +31,9 @@ class ExampleTest extends TestCase
 
         Bus::batch([
             new JobOne(),
-            new JobTwo(),
-            new JobThree(),
         ])
             ->dispatch();
 
         Event::assertDispatched(JobOneEvent::class);
-        Event::assertDispatched(JobTwoEvent::class);
-        Event::assertDispatched(JobThreeEvent::class);
     }
 }
